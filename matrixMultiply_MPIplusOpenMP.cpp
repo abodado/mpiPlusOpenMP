@@ -67,7 +67,7 @@ int main(int argc, char* argv[]) {
 				}
                 C[i][j] = sum;
             }
-        }
+        }		
 	}
 
     // Stop the timer
@@ -79,6 +79,20 @@ int main(int argc, char* argv[]) {
 	if(rank == 0) {
 		std::cout << "Matrix multiplication completed." << std::endl;
 		std::cout << "Elapsed Time: " << elapsed_time << " seconds" << std::endl;
+	}
+	
+    int diagonalSum = 0;
+	int lastRowSum = 0;
+	if (rank == 0) {
+	  for (int i = 0; i < N; ++i) {
+        diagonalSum += C[i][i];
+      }	  	
+	  for (int j = 0; j < N; ++j) {
+		lastRowSum += C[N - 1][j]; // Accessing the last row (index N-1)
+      }
+	  
+	  std::cout << "Matrix diagonal sum: " << diagonalSum << std::endl;		
+	  std::cout << "Matrix lastRowSum: " << lastRowSum << std::endl;			  
 	}
 	
 	// Require the barrier here as we don't want other processes to finalize
